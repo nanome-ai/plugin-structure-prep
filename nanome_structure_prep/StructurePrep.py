@@ -12,13 +12,11 @@ class StructurePrep(nanome.PluginInstance):
 
     def get_complexes_deep(self, complex_list):
         selected = [c.index for c in complex_list if c._selected]
-        if selected:
-            print('hello')
         self.request_complexes(selected, self.step1)
 
     def step1(self, complex_list):
         if self.settings.use_bonds:
-            self.add_bonds(complex_list, self.step2)
+            self.add_bonds(complex_list, self.step2, nano=True)
         else:
             self.step2(complex_list)
 
