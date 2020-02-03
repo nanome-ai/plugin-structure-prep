@@ -12,19 +12,37 @@ class StructurePrep(nanome.PluginInstance):
 
     def get_complexes_deep(self, complex_list):
         selected = [c.index for c in complex_list if c._selected]
+        if not selected:
+            self.send_notification(nanome.util.enums.NotificationTypes.error, "Please select an entry")
+            return
+        self.set_plugin_list_button(self.PluginListButtonType.run, "Running...", False)
         self.request_complexes(selected, self.step1)
 
     def step1(self, complex_list):
         if self.settings.use_bonds:
-            self.add_bonds(complex_list, self.step2, nano=True)
+            # remove bonds first
+            for complex in complex_list:
+                for atom in complex.atoms:
+                    atom._bonds.clear()
+                for residue in complex.residues:
+                    residue._bonds.clear()
+            self.update_structures_deep(complex_list)
+            # readd bonds
+            self.add_bonds(complex_list, self.step2)
         else:
             self.step2(complex_list)
 
     def step2(self, complex_list):
         if self.settings.use_dssp:
-            self.add_dssp(complex_list, self.add_to_workspace)
+            self.add_dssp(complex_list, self.done)
         else:
-            self.add_to_workspace(complex_list)
+            self.done(complex_list)
+
+    def done(self, complex_list):
+        self.send_notification(nanome.util.enums.NotificationTypes.success, "Structures prepped")
+        self.set_plugin_list_button(self.PluginListButtonType.run, "Run", True)
+        self.update_structures_deep(complex_list)
+
 
     def on_advanced_settings(self):
         self.settings.open_menu()
