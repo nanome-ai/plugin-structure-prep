@@ -1,1 +1,4 @@
 nanome/
+build/
+dist/
+*.egg-info

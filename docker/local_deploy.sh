@@ -14,5 +14,6 @@ else
     echo "Using default plugin server: plugins.nanome.ai"
     docker run -d \
     -p 8888:8888 \
+    -e PLUGIN_SERVER=plugins.nanome.ai \
     --name structure-prep structure-prep
 fi
