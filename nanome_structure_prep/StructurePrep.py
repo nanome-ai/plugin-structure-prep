@@ -16,7 +16,7 @@ class StructurePrep(nanome.PluginInstance):
 
     def step1(self, complex_list):
         if self.settings.use_bonds:
-            self.add_bonds(complex_list, self.step2, nano=True)
+            self.add_bonds(complex_list, self.step2)
         else:
             self.step2(complex_list)
 
