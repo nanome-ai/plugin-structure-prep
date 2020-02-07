@@ -4,15 +4,15 @@ from setuptools import find_packages, setup
 README = (pathlib.Path(__file__).parent / "README.md").read_text()
 
 setup(
-	name = 'nanome-plugin',
+	name = 'nanome-structure-prep',
 	packages=find_packages(),
-	version = '0.0.0',
+	version = '0.1.1',
 	license='MIT',
-	description = 'A Nanome plugin to clean up selected structures',
+	description = 'A Nanome plugin to clean up selected structures.',
 	long_description = README,
     long_description_content_type = "text/markdown",
-	author = 'Nanome',
-	author_email = 'hello@nanome.ai',
+	author = 'astrovicis',
+	author_email = 'max@nanome.ai',
 	url = 'https://github.com/nanome-ai/plugin-structure-prep',
 	platforms="any",
 	keywords = ['virtual-reality', 'chemistry', 'python', 'api', 'plugin'],
