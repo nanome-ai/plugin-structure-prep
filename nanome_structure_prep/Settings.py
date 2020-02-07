@@ -1,10 +1,10 @@
 import nanome
-from os import path
+import os
 import re
 
-MENU_PATH = path.join(path.dirname(__file__), 'json/menus/Settings.json')
-OFF_ICON_PATH = path.join(path.dirname(__file__), 'assets/icons/off.png')
-ON_ICON_PATH = path.join(path.dirname(__file__), 'assets/icons/on.png')
+MENU_PATH = os.path.join(os.path.dirname(__file__), 'json/menus/Settings.json')
+OFF_ICON_PATH = os.path.join(os.path.dirname(__file__), 'assets/icons/off.png')
+ON_ICON_PATH = os.path.join(os.path.dirname(__file__), 'assets/icons/on.png')
 
 class Settings():
     def __init__(self, plugin, on_close):
@@ -36,8 +36,7 @@ class Settings():
         # button config (dssp)
         self.__btn_dssp.outline.active = False
         self.__btn_dssp.name = self.__ln_btn_dssp.name
-        # TODO: Put back
-        # self.__btn_dssp.register_pressed_callback(self.set_option)
+        self.__btn_dssp.register_pressed_callback(self.set_option)
 
         self.use_bonds = True
         self.use_dssp  = True
