@@ -47,7 +47,7 @@ class StructurePrep(nanome.PluginInstance):
         self.settings.open_menu()
 
 def main():
-    plugin = nanome.Plugin("Structure Prep", "A plugin to clean up selected structures", "Structure", True)
+    plugin = nanome.Plugin("Structure Prep", "Select your structures from the Entry List, then press Run to regenerate bonds and secondary structure.", "Structure", True)
     plugin.set_plugin_class(StructurePrep)
     plugin.run('127.0.0.1', 8888)
 
