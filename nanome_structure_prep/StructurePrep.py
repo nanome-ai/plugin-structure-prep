@@ -43,7 +43,6 @@ class StructurePrep(nanome.PluginInstance):
         self.set_plugin_list_button(self.PluginListButtonType.run, "Run", True)
         self.update_structures_deep(complex_list)
 
-
     def on_advanced_settings(self):
         self.settings.open_menu()
 
