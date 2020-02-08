@@ -32,6 +32,10 @@ setup(
 		'Programming Language :: Python :: 3.7',
 	],
 	package_data={
-        "nanome_structure_prep": []
+        "nanome_structure_prep": 
+				[
+					"/assets/*",
+					"/json/*",
+				]
 	},
 )

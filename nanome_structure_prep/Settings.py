@@ -2,9 +2,9 @@ import nanome
 import os
 import re
 
-MENU_PATH = os.path.join(os.path.dirname(__file__), 'json/menus/Settings.json')
-OFF_ICON_PATH = os.path.join(os.path.dirname(__file__), 'assets/icons/off.png')
-ON_ICON_PATH = os.path.join(os.path.dirname(__file__), 'assets/icons/on.png')
+MENU_PATH = os.path.join(os.path.dirname(__file__), 'json/Settings.json')
+OFF_ICON_PATH = os.path.join(os.path.dirname(__file__), 'assets/off.png')
+ON_ICON_PATH = os.path.join(os.path.dirname(__file__), 'assets/on.png')
 
 class Settings():
     def __init__(self, plugin, on_close):
