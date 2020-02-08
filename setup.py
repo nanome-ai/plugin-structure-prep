@@ -34,8 +34,8 @@ setup(
 	package_data={
         "nanome_structure_prep": 
 				[
-					"/assets/*",
-					"/json/*",
+					"assets/*",
+					"json/*",
 				]
 	},
 )
