@@ -1,1 +1,0 @@
-docker build -f structure-prep.Dockerfile -t structure-prep:latest ..
