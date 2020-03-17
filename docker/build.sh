@@ -1,1 +1,1 @@
-docker build -f Dockerfile -t structure-prep:latest ..
+docker build --no-cache -f Dockerfile -t structure-prep:latest ..
