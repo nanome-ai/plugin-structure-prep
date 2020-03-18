@@ -11,6 +11,8 @@ RUN apt install -y git
 RUN pip3 install --upgrade pip
 RUN git clone https://github.com/nanome-ai/nanome.git
 RUN cd nanome && git fetch && git checkout nanobabel_fallback && python3.7 -m pip install .
+
+# ARG CACHEBUST
 # RUN python3.7 -m pip install nanome
 
 COPY . /app

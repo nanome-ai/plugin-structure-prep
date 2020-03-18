@@ -1,5 +1,6 @@
+#!/bin/bash
+
 if [ "$(docker ps -aq -f name=structure-prep)" != "" ]; then
-    # cleanup
     echo "removing exited container"
     docker rm -f structure-prep
 fi
