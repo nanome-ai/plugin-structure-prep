@@ -29,7 +29,7 @@ class Settings():
         self.__ln_btn_dssp   = self.__menu.root.find_node('DSSP Button')
         self.__img_dssp  = self.__ln_btn_dssp.create_child_node('Image')
         self.__img_dssp.forward_dist = -0.003
-        self.__img_dssp.add_new_image(OFF_ICON_PATH)
+        self.__img_dssp.add_new_image(ON_ICON_PATH)
         self.__btn_dssp = self.__ln_btn_dssp.get_content()
         self.__btn_dssp.img = self.__img_dssp
 
