@@ -3,9 +3,8 @@ ENV ARGS=""
 
 RUN apt install software-properties-common
 RUN add-apt-repository -y ppa:deadsnakes/ppa
-RUN apt update
+RUN apt update --fix-missing
 RUN apt install -y python3.7 python3-pip git
-RUN pip3 install pip
 
 ARG CACHEBUST
 RUN git clone https://github.com/nanome-ai/nanome.git -b nanobabel_fallback
