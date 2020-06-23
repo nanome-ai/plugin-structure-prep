@@ -6,7 +6,7 @@ README = (pathlib.Path(__file__).parent / "README.md").read_text()
 setup(
 	name = 'nanome-structure-prep',
 	packages=find_packages(),
-	version = '0.2.5',
+	version = '0.2.6',
 	license='MIT',
 	description = 'A Nanome plugin to clean up selected structures.',
 	long_description = README,
