@@ -27,17 +27,24 @@ class StructurePrep(nanome.PluginInstance):
             Logs.debug('converting complex', i, 'to frames')
             complexes[i] = complexes[i].convert_to_frames()
             complexes[i].index = complex_index
+        callback(complexes)
 
-        rerequest_complexes = partial(self.request_complexes, [complex.index for complex in complexes], callback)
-        self.update_structures_deep(complexes, rerequest_complexes)
+    def replace_frameds(self, complexes, callback):
+        for i in range(len(complexes)):
+            index = complexes[i].index
+            Logs.debug('converting complex', i, 'to conformers')
+            complexes[i] = complexes[i].convert_to_conformers()
+            complexes[i].index = index
+
+        callback(complexes)
 
     def integration_request(self, request):
         def sender(complex_list):
             request.send_response(complex_list)
-        self.step1(request.get_args(), sender)
+        self.start_step1(request.get_args(), sender)
 
-    def start_step1(self, complex_list):
-        self.replace_conformers(complex_list, partial(self.step1, sender=self.done))
+    def start_step1(self, complex_list, sender=None):
+        self.replace_conformers(complex_list, partial(self.step1, sender=sender or self.done))
 
     def step1(self, complex_list, sender):
         if self.settings.use_bonds:
@@ -56,14 +63,13 @@ class StructurePrep(nanome.PluginInstance):
 
     def step2(self, complex_list, sender):
         if self.settings.use_dssp:
-            self.add_dssp(complex_list, sender)
+            self.add_dssp(complex_list, partial(self.replace_frameds, callback=sender))
         else:
-            sender(complex_list)
+            self.replace_frameds(complex_list, sender)
 
     def done(self, complex_list):
-        self.send_notification(nanome.util.enums.NotificationTypes.success, "Structures prepped")
         self.set_plugin_list_button(self.PluginListButtonType.run, "Run", True)
-        self.update_structures_deep(complex_list)
+        self.update_structures_deep(complex_list, lambda: self.send_notification(nanome.util.enums.NotificationTypes.success, "Structures prepped"))
 
     def on_advanced_settings(self):
         self.settings.open_menu()
