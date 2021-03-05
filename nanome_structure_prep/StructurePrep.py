@@ -1,3 +1,5 @@
+from functools import partial
+
 import nanome
 from nanome.util import Logs
 
@@ -19,13 +21,23 @@ class StructurePrep(nanome.PluginInstance):
         self.set_plugin_list_button(self.PluginListButtonType.run, "Running...", False)
         self.request_complexes(selected, self.start_step1)
 
+    def replace_conformers(self, complexes, callback):
+        for i in range(len(complexes)):
+            complex_index = complexes[i].index
+            Logs.debug('converting complex', i, 'to frames')
+            complexes[i] = complexes[i].convert_to_frames()
+            complexes[i].index = complex_index
+
+        rerequest_complexes = partial(self.request_complexes, [complex.index for complex in complexes], callback)
+        self.update_structures_deep(complexes, rerequest_complexes)
+
     def integration_request(self, request):
         def sender(complex_list):
             request.send_response(complex_list)
         self.step1(request.get_args(), sender)
 
     def start_step1(self, complex_list):
-        self.step1(complex_list, self.done)
+        self.replace_conformers(complex_list, partial(self.step1, sender=self.done))
 
     def step1(self, complex_list, sender):
         if self.settings.use_bonds:
@@ -59,7 +71,7 @@ class StructurePrep(nanome.PluginInstance):
 def main():
     plugin = nanome.Plugin("Structure Prep", "Select your structures from the Entry List, then press Run to regenerate bonds and secondary structure.", "Structure", True)
     plugin.set_plugin_class(StructurePrep)
-    plugin.run('127.0.0.1', 8888)
+    plugin.run()
 
 if __name__ == "__main__":
     main()
