@@ -1,14 +1,12 @@
-from functools import partial
-
 import nanome
-from nanome.util import async_callback, Logs
-from nanome.util.enums import NotificationTypes
+from nanome.util import async_callback
+from nanome.util.enums import Integrations, NotificationTypes
 
 from .Settings import Settings
 
 class StructurePrep(nanome.AsyncPluginInstance):
     def start(self):
-        self.settings = Settings(self, lambda b: None)
+        self.settings = Settings(self)
         self.integration.structure_prep = self.integration_request
 
     @async_callback
@@ -63,7 +61,7 @@ class StructurePrep(nanome.AsyncPluginInstance):
         self.settings.open_menu()
 
 def main():
-    plugin = nanome.Plugin("Structure Prep", "Select your structures from the Entry List, then press Run to regenerate bonds and secondary structure.", "Structure", True)
+    plugin = nanome.Plugin("Structure Prep", "Select your structures from the Entry List, then press Run to regenerate bonds and secondary structure.", "Structure", True, integrations=[Integrations.structure_prep])
     plugin.set_plugin_class(StructurePrep)
     plugin.run()
 
