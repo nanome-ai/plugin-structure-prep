@@ -1,4 +1,4 @@
-from nanome_structure_prep import StructurePrep
+from plugin import StructurePrep
 
 if __name__ == "__main__":
     StructurePrep.main()
