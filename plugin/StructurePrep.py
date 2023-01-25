@@ -4,6 +4,7 @@ from nanome.util.enums import Integrations, NotificationTypes
 
 from .Settings import Settings
 
+
 class StructurePrep(nanome.AsyncPluginInstance):
 
     def start(self):
@@ -61,10 +62,12 @@ class StructurePrep(nanome.AsyncPluginInstance):
     def on_advanced_settings(self):
         self.settings.open_menu()
 
+
 def main():
     plugin = nanome.Plugin("Structure Prep", "Select your structures from the Entry List, then press Run to regenerate bonds and secondary structure.", "Structure", True, integrations=[Integrations.structure_prep])
     plugin.set_plugin_class(StructurePrep)
     plugin.run()
+
 
 if __name__ == "__main__":
     main()
