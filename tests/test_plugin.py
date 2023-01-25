@@ -36,8 +36,7 @@ class PluginFunctionTestCase(unittest.TestCase):
     def test_prep_structures(self):
         # Make sure get_clean_pdb_file function returns valid pdb can be parsed into a Complex structure.
         async def validate_prep_structure(self):
-            loop = asyncio.get_event_loop()
-            result = loop.run_until_complete(await self.plugin_instance.prep_structures([self.complex]))
+            result = await self.plugin_instance.prep_structures([self.complex])
             cleaned_complex = Complex.io.from_pdb(path=result)
             self.assertTrue(sum(1 for _ in cleaned_complex.atoms) > 0)
         run_awaitable(validate_prep_structure, self)

@@ -45,7 +45,7 @@ class StructurePrep(nanome.AsyncPluginInstance):
                     atom._bonds.clear()
                 for residue in complex.residues:
                     residue._bonds.clear()
-            # read bonds
+            # Calculate bonds
             await self.add_bonds(complexes)
 
         if self.settings.use_dssp:
