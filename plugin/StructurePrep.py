@@ -46,7 +46,6 @@ class StructurePrep(nanome.AsyncPluginInstance):
                 for residue in complex.residues:
                     residue._bonds.clear()
             # read bonds
-            breakpoint()
             await self.add_bonds(complexes)
 
         if self.settings.use_dssp:
