@@ -5,6 +5,7 @@ from nanome.util.enums import Integrations, NotificationTypes
 from .Settings import Settings
 
 class StructurePrep(nanome.AsyncPluginInstance):
+
     def start(self):
         self.settings = Settings(self)
         self.integration.structure_prep = self.integration_request
@@ -44,7 +45,7 @@ class StructurePrep(nanome.AsyncPluginInstance):
                     atom._bonds.clear()
                 for residue in complex.residues:
                     residue._bonds.clear()
-            # readd bonds
+            # Calculate bonds
             await self.add_bonds(complexes)
 
         if self.settings.use_dssp:
