@@ -5,6 +5,7 @@ MENU_PATH = os.path.join(os.path.dirname(__file__), 'json/Settings.json')
 OFF_ICON_PATH = os.path.join(os.path.dirname(__file__), 'assets/off.png')
 ON_ICON_PATH = os.path.join(os.path.dirname(__file__), 'assets/on.png')
 
+
 class Settings():
     def __init__(self, plugin):
         self.__plugin = plugin
