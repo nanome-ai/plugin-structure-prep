@@ -6,6 +6,7 @@ from random import randint
 from unittest.mock import MagicMock
 from nanome.api.structure import Complex
 from plugin.StructurePrep import StructurePrep
+from nanome.util.enums import SecondaryStructure
 
 fixtures_dir = os.path.join(os.path.dirname(__file__), 'fixtures')
 
@@ -35,8 +36,19 @@ class PluginFunctionTestCase(unittest.TestCase):
 
     def test_prep_structures(self):
         # Make sure get_clean_pdb_file function returns valid pdb can be parsed into a Complex structure.
-        async def validate_prep_structure(self):
-            result = await self.plugin_instance.prep_structures([self.complex])
-            cleaned_complex = Complex.io.from_pdb(path=result)
-            self.assertTrue(sum(1 for _ in cleaned_complex.atoms) > 0)
-        run_awaitable(validate_prep_structure, self)
+        loop = asyncio.get_event_loop()
+        # Validate zero bonds, and all secondary structures are unknown
+        self.assertEqual(len(list(self.complex.bonds)), 0)
+        self.assertTrue(all([
+            res.secondary_structure == SecondaryStructure.Unknown
+            for res in self.complex.residues
+        ]))
+        result = loop.run_until_complete(self.plugin_instance.prep_structures([self.complex]))
+        prepped_complex = result[0]
+        # Assert Bonds are added, and secondary structures are assigned
+        self.assertTrue(len(list(prepped_complex.bonds)) > 0)
+        known_secondary_structures = [
+            res for res in prepped_complex.residues
+            if res.secondary_structure != SecondaryStructure.Unknown
+        ]
+        self.assertTrue(len(known_secondary_structures) > 0)
