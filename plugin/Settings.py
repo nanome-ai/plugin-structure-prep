@@ -12,7 +12,7 @@ class Settings():
 
         # layout node setup (bonds)
         ln_btn_bonds = self.__menu.root.find_node('Bonds Button')
-        btn_bonds = ln_btn_bonds.get_content()
+        self.btn_bonds = btn_bonds = ln_btn_bonds.get_content()
         btn_bonds.icon.active = True
         btn_bonds.icon.value.set_all(OFF_ICON_PATH)
         btn_bonds.icon.value.selected = ON_ICON_PATH
@@ -26,7 +26,7 @@ class Settings():
 
         # layout node setup (dssp)
         ln_btn_dssp = self.__menu.root.find_node('DSSP Button')
-        btn_dssp = ln_btn_dssp.get_content()
+        self.btn_dssp = btn_dssp = ln_btn_dssp.get_content()
         btn_dssp.icon.active = True
         btn_dssp.icon.value.set_all(OFF_ICON_PATH)
         btn_dssp.icon.value.selected = ON_ICON_PATH

@@ -7,6 +7,8 @@ from unittest.mock import MagicMock
 from nanome.api.structure import Complex
 from plugin.StructurePrep import StructurePrep
 from nanome.util.enums import SecondaryStructure
+from plugin.Settings import Settings
+
 
 fixtures_dir = os.path.join(os.path.dirname(__file__), 'fixtures')
 
@@ -52,3 +54,28 @@ class PluginFunctionTestCase(unittest.TestCase):
             if res.secondary_structure != SecondaryStructure.Unknown
         ]
         self.assertTrue(len(known_secondary_structures) > 0)
+
+class SettingsMenuTestCase(unittest.TestCase):
+
+    def setUp(self):
+        self.plugin = unittest.mock.MagicMock()
+        self.settings = Settings(self.plugin)
+    
+    def test_set_option(self):
+        """Test that bonds and dssp settings can be toggled."""
+        # Assert settings are Enabled
+        btn_bonds = self.settings.btn_bonds
+        btn_dssp = self.settings.btn_dssp
+        self.assertTrue(btn_bonds.selected)
+        self.assertTrue(btn_dssp.selected)
+        self.assertTrue(self.settings.use_bonds)
+        self.assertTrue(self.settings.use_dssp)
+        # Toggle settings
+        self.settings.set_option(btn_bonds)
+        self.settings.set_option(btn_dssp)
+        # Assert settings are disabled
+        self.assertFalse(btn_bonds.selected)
+        self.assertFalse(btn_dssp.selected)
+        self.assertFalse(self.settings.use_bonds)
+        self.assertFalse(self.settings.use_dssp)
+    
