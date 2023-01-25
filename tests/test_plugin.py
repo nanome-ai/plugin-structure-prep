@@ -2,6 +2,7 @@ import asyncio
 import os
 import unittest
 from random import randint
+import multiprocessing
 
 from unittest.mock import MagicMock
 from nanome.api.structure import Complex
@@ -21,7 +22,7 @@ def run_awaitable(awaitable, *args, **kwargs):
     loop.close()
 
 
-class PluginFunctionTestCase(unittest.TestCase):
+class StructurePrepTestCase(unittest.TestCase):
 
     def setUp(self):
         tyl_pdb = f'{fixtures_dir}/1tyl.pdb'
@@ -30,7 +31,6 @@ class PluginFunctionTestCase(unittest.TestCase):
             atom.index = randint(1000000000, 9999999999)
         self.plugin_instance = StructurePrep()
         self.plugin_instance.start()
-        self.plugin_instance._network = MagicMock()
 
     def tearDown(self) -> None:
         self.plugin_instance.on_stop()
@@ -54,6 +54,29 @@ class PluginFunctionTestCase(unittest.TestCase):
             if res.secondary_structure != SecondaryStructure.Unknown
         ]
         self.assertTrue(len(known_secondary_structures) > 0)
+
+    def test_on_run(self):
+        async def validate_on_run(self):
+            self.complex._selected = True
+            req_list_fut = asyncio.Future()
+            req_list_fut.set_result([self.complex])
+            req_comp_fut = asyncio.Future()
+            req_comp_fut.set_result([self.complex])
+            prep_struc_fut = asyncio.Future()
+            prep_struc_fut.set_result([self.complex])
+
+            self.plugin_instance.request_complex_list = MagicMock(return_value=req_list_fut)
+            self.plugin_instance.request_complexes = MagicMock(return_value=req_comp_fut)
+            self.plugin_instance.prep_structures = MagicMock(return_value=prep_struc_fut)
+            self.plugin_instance.set_plugin_list_button = MagicMock()
+            self.plugin_instance.update_structures_deep = MagicMock(return_value=req_list_fut)
+            self.plugin_instance.send_notification = MagicMock()
+            await self.plugin_instance.on_run()
+            # Assert that the prep_complex and update calls are made
+            self.plugin_instance.prep_structures.assert_called_once()
+            self.plugin_instance.update_structures_deep.assert_called_once()
+        run_awaitable(validate_on_run, self)
+
 
 class SettingsMenuTestCase(unittest.TestCase):
 
